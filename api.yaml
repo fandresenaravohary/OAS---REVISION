@@ -1,0 +1,87 @@
+openapi: "3.0.1"
+info:
+  title: Revision API
+  version: "1.0.0"
+servers:
+  - url: https://revision.com
+paths:
+  /books:
+    get:
+      summary: Get all /books
+      description: Return all books ordered by author num ASC
+      operationId: getBooks
+      parameters:
+        - in: query
+          name: bookName
+          description: filter the returns book by the name
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: The returned books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    bookName:
+                      type: string
+    put:
+      summary: create or update of a list of books
+      operationId: crupdatebooks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  bookName:
+                    type: string
+      responses:
+        200:
+          description: The created or updated books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    bookName:
+                      type: string
+                      format: date
+components:
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: string
+        bookName:
+          type: string
+        author:
+          type: string
+        properties:
+          type: integer
+        releaseDate:
+          type: string
+          format: date
+        topic:
+          $ref: "#/components/schemas/topic"
+    topic:
+      type: string
+      enum:
+        - ACTION
+        - ADVENTURE
+        - OTHER
